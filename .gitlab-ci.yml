@@ -3,18 +3,28 @@ image: docker:latest
 services:
 - docker:dind
 
-build:
+discord:
   stage: build
   script:
-    - docker_build "server" "1.12" "https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
-    - docker_build "server" "1.13" "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
-    - docker_build "server" "1.14" "https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
-  
+  - docker_build "discord" "latest"
+
+server:
+  stage: build
+  script:
+  - docker_build "server" "1.12" "JAR=https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
+  - docker_build "server" "1.13" "JAR=https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
+  - docker_build "server" "1.14" "JAR=https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
+
 .auto_devops: &auto_devops |
   [[ "$TRACE" ]] && set -x
 
   function docker_build() {
-    docker build --pull -t "$CI_REGISTRY_IMAGE/server:$2" $1 --build-arg JAR="$3"
+    BUILD_ARG=""
+    if [ ! -z "$3" ] then
+      BUILD_ARG="--build-arg $3"
+    fi
+
+    docker build --pull -t "$CI_REGISTRY_IMAGE/server:$2" $1 "$BUILD_ARG"
     docker push "$CI_REGISTRY_IMAGE/server:$2"
   }
 
