@@ -19,12 +19,12 @@ server:
   [[ "$TRACE" ]] && set -x
 
   function docker_build() {
-    BUILD_ARG=""
     if [ ! -z "$3" ]; then
-      BUILD_ARG="--build-arg $3"
+      docker build --pull -t "$CI_REGISTRY_IMAGE/$1:$2" $1 --build-arg "$3"
+    else
+      docker build --pull -t "$CI_REGISTRY_IMAGE/$1:$2" $1
     fi
-  echo $BUILD_ARG
-    docker build --pull -t "$CI_REGISTRY_IMAGE/$1:$2" $1 "$BUILD_ARG"
+
     docker push "$CI_REGISTRY_IMAGE/$1:$2"
   }
 
