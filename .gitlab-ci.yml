@@ -1,10 +1,10 @@
+image: docker:latest
+
+services:
+- docker:dind
+
 build:
-  image: docker:latest
   stage: build
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - docker_build "server" "1.12" "https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
     - docker_build "server" "1.13" "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
@@ -17,3 +17,10 @@ build:
     docker build --pull -t "$CI_REGISTRY_IMAGE/server:$2" $1 --build-arg JAR="$3"
     docker push "$CI_REGISTRY_IMAGE/server:$2"
   }
+
+before_script:
+- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+- *auto_devops
+
+stages:
+- build
