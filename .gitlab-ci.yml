@@ -23,9 +23,9 @@ server:
     if [ ! -z "$3" ]; then
       BUILD_ARG="--build-arg $3"
     fi
-
-    docker build --pull -t "$CI_REGISTRY_IMAGE/server:$2" $1 "$BUILD_ARG"
-    docker push "$CI_REGISTRY_IMAGE/server:$2"
+  echo $BUILD_ARG
+    docker build --pull -t "$CI_REGISTRY_IMAGE/$1:$2" $1 "$BUILD_ARG"
+    docker push "$CI_REGISTRY_IMAGE/$1:$2"
   }
 
 before_script:
