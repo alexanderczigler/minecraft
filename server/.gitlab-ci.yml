@@ -6,14 +6,14 @@ build:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker_build "1.12" "https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
-    - docker_build "1.13" "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
-    - docker_build "1.14" "https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
+    - docker_build "server" "1.12" "https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
+    - docker_build "server" "1.13" "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
+    - docker_build "server" "1.14" "https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
   
 .auto_devops: &auto_devops |
   [[ "$TRACE" ]] && set -x
 
   function docker_build() {
-    docker build --pull -t "$CI_REGISTRY_IMAGE/server:$1" . --build-arg JAR="$2"
-    docker push "$CI_REGISTRY_IMAGE/server:$1"
+    docker build --pull -t "$CI_REGISTRY_IMAGE/server:$2" $1 --build-arg JAR="$3"
+    docker push "$CI_REGISTRY_IMAGE/server:$2"
   }
