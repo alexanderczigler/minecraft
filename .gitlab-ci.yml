@@ -8,6 +8,13 @@ discord:
   script:
   - docker_build "discord" "latest"
 
+overviewer:
+  stage: build
+  script:
+  - docker_build "overviewer" "1.12" "VERSION=1.12.2"
+  - docker_build "overviewer" "1.13" "VERSION=1.13.2"
+  - docker_build "overviewer" "1.14" "VERSION=1.14.2"
+
 server:
   stage: build
   script:
