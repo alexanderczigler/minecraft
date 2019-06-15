@@ -47,8 +47,6 @@ I also have a docker image prepared with Minecraft Overviewer. You can use this 
 
 ### Minecraft chat + Discord
 
-I have created a Docker image that you can use to connect the Minecraft server chat to a Discord channel.
+Have your minecraft server's chat log sent to a Discord channel in near real-time.
 
-- Git: [https://github.com/ilix/minecraft-discord](https://github.com/ilix/minecraft-discord)
-- Docker Hub: [https://hub.docker.com/r/ilix/minecraft-discord/](https://hub.docker.com/r/ilix/minecraft-discord/)
-
+![Discord example](https://github.com/ilix/minecraft-discord/raw/master/example.png)
