@@ -20,7 +20,7 @@ server:
 
   function docker_build() {
     BUILD_ARG=""
-    if [ ! -z "$3" ] then
+    if [ ! -z "$3" ]; then
       BUILD_ARG="--build-arg $3"
     fi
 
