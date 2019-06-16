@@ -16,7 +16,7 @@ overviewer:
   - docker_build "overviewer" "1.14" "VERSION=1.14.2"
 
 server:
-  stage: build
+  stage: build server images
   script:
   - docker_build "server" "1.12" "JAR=https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
   - docker_build "server" "1.13" "JAR=https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
@@ -40,4 +40,4 @@ before_script:
 - *auto_devops
 
 stages:
-- build
+- build server images
