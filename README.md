@@ -69,4 +69,4 @@ minecraft-overviewer-nginx:
 
 Have your minecraft server's chat log sent to a Discord channel in near real-time.
 
-![Discord example](https://gitlab.com/alexanderczigler/minecraft/blob/master/discord/example.png)
+![Discord example](https://gitlab.com/alexanderczigler/minecraft/raw/master/discord/example.png)
