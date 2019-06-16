@@ -1,0 +1,16 @@
+worlds["Day"] = "/mc/world"
+worlds["Night"] = "/mc/world"
+
+renders["ne"] = {
+  "world": "Day",
+  "title": "North East",
+  "northdirection": "upper-left"
+}
+
+renders["night"] = {
+  "world": "Night",
+  "title": "Night",
+  "rendermode": "night"
+}
+
+outputdir = "/map"
