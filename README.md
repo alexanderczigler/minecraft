@@ -40,13 +40,33 @@ Deploy by running `docker stack deploy minecraft --compose-file minecraft.yml`
 
 ### Minecraft Overviewer
 
-I also have a docker image prepared with Minecraft Overviewer. You can use this to generate a beautiful map of your server (versions up to 1.12.2 only).
+There is an image that runs Minecraft Overviewer. You can use this to generate a beautiful map of your server and host them in combination with a httpd.
 
-- Git: [https://github.com/ilix/minecraft-overviewer](https://github.com/ilix/minecraft-overviewer)
-- Docker Hub: [https://hub.docker.com/r/ilix/minecraft-overviewer/](https://hub.docker.com/r/ilix/minecraft-overviewer/)
+Docker run example:
+
+```bash
+# Overviewer
+docker run --name minecraft-overviewer -v "/home/alexander/minecraft-server:/mc" -v "/home/alexander/.minecraft:/root/.minecraft" registry.gitlab.com/alexanderczigler/minecraft/overviewer:1.12
+# nginx
+docker run -d --name minecraft-overviewer-nginx -v "/home/alexander/minecraft-server/overviewer:/www" matriphe/alpine-nginx
+```
+
+Example in a stack file:
+
+```yaml
+minecraft-overviewer:
+  image: registry.gitlab.com/alexanderczigler/minecraft/overviewer:1.12
+  volumes:
+    - '/home/alexander/minecraft-server:/mc'
+minecraft-overviewer-nginx:
+  image: 'matriphe/alpine-nginx'
+  volumes:
+    - '/home/alexander/minecraft-server/overviewer:/www'
+```
+
 
 ### Minecraft chat + Discord
 
 Have your minecraft server's chat log sent to a Discord channel in near real-time.
 
-![Discord example](https://github.com/ilix/minecraft-discord/raw/master/example.png)
+![Discord example](https://gitlab.com/alexanderczigler/minecraft/blob/master/discord/example.png)
