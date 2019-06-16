@@ -3,6 +3,12 @@ image: docker:latest
 services:
 - docker:dind
 
+backup:
+  stage: accessories
+  script:
+  - docker build --pull -t "$CI_REGISTRY_IMAGE/backup:latest" backup
+  - docker push "$CI_REGISTRY_IMAGE/backup:latest"
+
 discord:
   stage: accessories
   script:
