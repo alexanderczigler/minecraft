@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/alexanderczigler/docker-cron
+FROM aczigler/cron
 
 # Meta
 LABEL maintainer="alexander@iteam.se"

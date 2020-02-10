@@ -15,7 +15,7 @@ services:
   
   # A local minecraft server to test against.
   minecraft:
-    image: registry.gitlab.com/alexanderczigler/minecraft/server:1.14
+    image: aczigler/minecraft:server-1.14
     ports:
     - 25565:25565 # server
     - 25575:25575 # rcon
