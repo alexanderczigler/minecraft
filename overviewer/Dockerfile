@@ -1,6 +1,4 @@
-FROM aczigler/cron
-
-# Meta
+FROM iteamacr/cron
 LABEL maintainer="alexander@iteam.se"
 
 # Setup overviewer in aptitude.
