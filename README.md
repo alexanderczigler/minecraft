@@ -124,30 +124,116 @@ volumes:
 
 ## Advanced
 
-If you are aiming for a more fault-tolerant environment, you may want to map your volumes to a network drive rather than a local folder.
+If you are aiming for a more fault-tolerant environment, you may want to map your volumes to a network drive rather than a local folder. In addition to that it is a good idea to also take regular off-site backups. Below is an example of a docker swarm stack running all of the above services, including my `iteamacr/minecraft-backup` image.
 
 ### Swarm example
 
 ```yaml
+version: '3.8'
+
+services:
+  server:
+    image: iteamacr/minecraft-server:1.17
+    networks:
+      - default
+    ports:
+      - "25565:25565"
+    volumes:
+      - type: volume
+        source: minecraft_rw
+        target: /mc
+        volume:
+          nocopy: true
+    deploy:
+      replicas: 1
+  overviewer:
+    image: iteamacr/minecraft-overviewer:1.17
+    volumes:
+      - type: volume
+        source: minecraft
+        target: /mc
+        volume:
+          nocopy: true
+      - type: volume
+        source: map_rw
+        target: /map
+        volume:
+          nocopy: true
+    deploy:
+      replicas: 1
+  nginx:
+    image: matriphe/alpine-nginx
+    networks:
+      - default
+      - proxy
+    volumes:
+      - type: volume
+        source: map
+        target: /www
+        volume:
+          nocopy: true
+    deploy:
+      replicas: 2
+      labels: # NOTE: This example is using traefik as an http ingress
+        traefik.port: 80
+        traefik.docker.network: "proxy"
+        traefik.frontend.rule: "Host:minecraft.your-domain.net" # Change this!
+  discord:
+    image: iteamacr/minecraft-discord:latest
+    networks:
+      default:
+    environment:
+      # Set your Discord webhook here.
+      - WEBHOOK=https://discordapp.com/api/webhooks/123/abc # Change this!
+    volumes:
+      - type: volume
+        source: minecraft
+        target: /minecraft
+        volume:
+          nocopy: true
+  backup:
+    image: iteamacr/minecraft-backup:latest
+    volumes:
+      - type: volume
+        source: minecraft
+        target: /minecraft
+        volume:
+          nocopy: true
+    networks:
+      default:
+    environment:
+      - RSYNC_PASSWORD=abc123 # Change this!
+      - RSYNC_PATH=/minecraft
+      - RSYNC_HOST=usw-s001.rsync.net # Change this!
+      - RSYNC_USER=1337 # Change this!
+      - MINECRAFT_SERVER=server
+      - MINERACFT_SERVER_PORT=25575
+      - MINECRAFT_RCON_PASSWORD=verysecret # Change this!
+
+networks:
+  proxy:
+    external: true
+
 volumes:
   map:
     driver_opts:
       type: "nfs"
       o: "addr=188.166.25.183,nolock,soft,ro"
-      device: ":/mnt/volume_ams3_01/swarm/map"
+      device: ":/mnt/storage-server/minecraft-server/map"
   map_rw:
     driver_opts:
       type: "nfs"
       o: "addr=188.166.25.183,nolock,soft,rw"
-      device: ":/mnt/volume_ams3_01/swarm/map"
+      device: ":/mnt/storage-server/minecraft-server/map"
   minecraft:
     driver_opts:
       type: "nfs"
       o: "addr=188.166.25.183,nolock,soft,ro"
-      device: ":/mnt/volume_ams3_01/swarm/minecraft"
+      device: ":/mnt/storage-server/minecraft-server/minecraft"
   minecraft_rw:
     driver_opts:
       type: "nfs"
       o: "addr=188.166.25.183,nolock,soft,rw"
-      device: ":/mnt/volume_ams3_01/swarm/minecraft"
+      device: ":/mnt/storage-server/minecraft-server/minecraft"
+
 ```
