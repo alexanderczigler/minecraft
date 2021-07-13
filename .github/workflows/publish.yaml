@@ -11,6 +11,7 @@ jobs:
 
   backup:
     name: Minecraft backup image
+    needs: server
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
@@ -30,6 +31,7 @@ jobs:
 
   discord:
     name: Minecraft discord image
+    needs: server
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
@@ -49,6 +51,7 @@ jobs:
 
   overviewer:
     name: Minecraft overviewer image
+    needs: server
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
@@ -61,10 +64,10 @@ jobs:
         run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
 
       - name: Build image
-        run: docker build --pull -t iteamacr/minecraft-overviewer:1.12 overviewer
+        run: docker build --pull --build-arg minecraft_version=1.17 -t iteamacr/minecraft-overviewer:1.17 overviewer
 
       - name: Push image to Docker Hub
-        run: docker push iteamacr/minecraft-overviewer:1.12
+        run: docker push iteamacr/minecraft-overviewer:1.17
 
   server:
     name: Minecraft server image
@@ -80,13 +83,7 @@ jobs:
         run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
 
       - name: Build image
-        run: |
-          docker build --pull -t iteamacr/minecraft-server:1.12 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
-          docker build --pull -t iteamacr/minecraft-server:1.13 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
-          docker build --pull -t iteamacr/minecraft-server:1.14 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
+        run: docker build --pull -t iteamacr/minecraft-server:1.17 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar"
 
       - name: Push image to Docker Hub
-        run: |
-          docker push iteamacr/minecraft-server:1.12
-          docker push iteamacr/minecraft-server:1.13
-          docker push iteamacr/minecraft-server:1.14
+        run: docker push iteamacr/minecraft-server:1.17
