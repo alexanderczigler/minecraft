@@ -8,42 +8,85 @@ on:
       - master
 
 jobs:
-  build:
+
+  backup:
+    name: Minecraft backup image
     runs-on: ubuntu-latest
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
 
-    - name: Checkout
-      uses: actions/checkout@v2
-    
-    - name: Docker Login
-      env:
-        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
+      - name: Login to Docker Hub
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
 
-    - name: Backup
-      run: docker build --pull -t aczigler/minecraft:backup backup
-    
-    - name: Discord
-      run: docker build --pull -t aczigler/minecraft:discord discord
-      
-    - name: Overviewer
-      run: docker build --pull -t aczigler/minecraft:overviewer-1.12 overviewer --build-arg "VERSION=1.12.2"
-      
-    - name: Server 1.12
-      run: docker build --pull -t aczigler/minecraft:server-1.12 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
-    
-    - name: Server 1.13
-      run: docker build --pull -t aczigler/minecraft:server-1.13 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
-      
-    - name: Server 1.14
-      run: docker build --pull -t aczigler/minecraft:server-1.14 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
-    
-    - name: Push images
-      run: |
-        docker push aczigler/minecraft:backup
-        docker push aczigler/minecraft:discord
-        docker push aczigler/minecraft:overviewer-1.12
-        docker push aczigler/minecraft:server-1.12
-        docker push aczigler/minecraft:server-1.13
-        docker push aczigler/minecraft:server-1.14
+      - name: Build image
+        run: docker build --pull -t iteamacr/minecraft-backup backup
+
+      - name: Push image to Docker Hub
+        run: docker push iteamacr/minecraft-backup
+
+  discord:
+    name: Minecraft discord image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
+
+      - name: Build image
+        run: docker build --pull -t iteamacr/minecraft-discord discord
+
+      - name: Push image to Docker Hub
+        run: docker push iteamacr/minecraft-discord
+
+  overviewer:
+    name: Minecraft overviewer image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
+
+      - name: Build image
+        run: docker build --pull -t iteamacr/minecraft-overviewer:1.12 overviewer
+
+      - name: Push image to Docker Hub
+        run: docker push iteamacr/minecraft-overviewer:1.12
+
+  server:
+    name: Minecraft server image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: echo $DOCKER_TOKEN | docker login --username "$DOCKER_USER" --password-stdin
+
+      - name: Build image
+        run: |
+          docker build --pull -t iteamacr/minecraft-server:1.12 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
+          docker build --pull -t iteamacr/minecraft-server:1.13 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
+          docker build --pull -t iteamacr/minecraft-server:1.14 server --build-arg "JAR=https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar"
+
+      - name: Push image to Docker Hub
+        run: |
+          docker push iteamacr/minecraft-server:1.12
+          docker push iteamacr/minecraft-server:1.13
+          docker push iteamacr/minecraft-server:1.14
