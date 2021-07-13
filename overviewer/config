@@ -9,7 +9,8 @@ renders["ne"] = {
 
 renders["night"] = {
   "world": "Night",
-  "title": "Night",
+  "title": "North East",
+  "northdirection": "upper-left",
   "rendermode": "night"
 }
 
