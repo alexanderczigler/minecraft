@@ -1,8 +1,8 @@
-name: docker
+name: Build & publish packages
 
 on:
   schedule:
-  - cron:  '0 3 * * 0'
+  - cron:  '0 3 * * 2'
   push:
     branches: 
       - master
