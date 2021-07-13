@@ -1,6 +1,4 @@
 FROM openjdk
-
-# Meta
 LABEL maintainer="alexander@iteam.se"
 
 WORKDIR /mc
@@ -14,6 +12,6 @@ ADD $JAR /mc/server.jar
 EXPOSE 25565
 
 # RCON
-EXPOSE 25565
+EXPOSE 25575
 
 CMD sh /run.sh
