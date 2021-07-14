@@ -14,6 +14,9 @@ If you simply want to run a server without any bells and whistles, you can do th
 # Run a fresh server
 docker run -p 25565:25565 -t iteamacr/minecraft-server:1.17
 
+# Set a higher memory limit
+docker run -p 25565:25565 -e MEMORY_LIMIT=4 -t iteamacr/minecraft-server:1.17
+
 # Build the image locally and run a fresh server
 docker build -t minecraft-server server
 docker run -p 25565:25565 -t minecraft-server
