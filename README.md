@@ -58,11 +58,11 @@ cd discord
 docker-compose up
 ```
 
-## Advanced
+## Swarm
 
 If you are aiming for a more fault-tolerant environment, you may want to map your volumes to a network drive rather than a local folder. In addition to that it is a good idea to also take regular off-site backups. Below is an example of a docker swarm stack running all of the above services, including my `iteamacr/minecraft-backup` image.
 
-### Swarm example
+### Example stack
 
 ```yaml
 version: '3.8'
