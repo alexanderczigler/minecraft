@@ -34,6 +34,7 @@ docker-compose up
 [Minecraft Overviewer](http://docs.overviewer.org/en/latest/) generates a beautiful map of your server and combined with an httpd like nginx you can host the map on the web. In addition to the server itself, you will also need to run my `iteamacr/minecraft-overviewer` image and configure it to place the output html files somewhere. I usually bundle overviewer with an nginx container to host the html. When the container is running, it will trigger a re-render the map every minute, so that once a render is complete it will restart within a minute. This ensures that your map is always up-to-date.
 
 *NOTE: The image uses `flock` to ensure that only one render is running at the same time.*
+*NOTE: It can take a few minutes for the map to appear for the first time, so be patient!*
 
 Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/overviewer/docker-compose.yaml) to see how you can run the server, overviewer and nginx.
 
