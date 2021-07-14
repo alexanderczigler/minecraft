@@ -45,54 +45,17 @@ docker-compose up
 
 ### Discord integration
 
-My `iteamacr/minecraft-discord` image works by tailing the log file and pushing any new lines to a discord webhook. This enables your to monitor the activity and chat on the server via discord.
+My `iteamacr/minecraft-discord` image works by tailing the log file and pushing any new lines to a discord webhook. This enables your to monitor the activity and chat on the server via discord. To learn how to create a webhook, check out [Discord's documentation](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
+
+*NOTE: I recommend you create a dedicated channel for the Minecraft server as there will be a lot of text coming out from the server*
 
 ![Discord example](https://raw.githubusercontent.com/alexanderczigler/minecraft/master/discord/example.png)
 
-```yaml
-# docker-compose.yaml
-version: '3.8'
+Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/discord/docker-compose.yaml) to see how you can run the server, overviewer and nginx. Remember to edit the `discord` service first to enter your webhook in the environment section!
 
-services:
-
-  # Minecraft server
-  server:
-    image: iteamacr/minecraft-server:1.17
-    networks:
-      - default
-    ports:
-      - "25565:25565" # server
-      - "25575:25575" # rcon
-    volumes:
-      - minecraft:/mc
-  
-  # Overviewer
-  overviewer:
-    image: iteamacr/minecraft-overviewer:1.17
-    volumes:
-      - map:/map
-      - minecraft:/mc:nocopy
-  nginx:
-    image: nginx
-    networks:
-      - default
-    volumes:
-      - map:/usr/share/nginx/html
-    ports:
-      - 80:80
-
-  # Discord
-  discord:
-    image: iteamacr/minecraft-discord:latest
-    environment:
-      # Set your Discord webhook here.
-      - WEBHOOK=https://discordapp.com/api/webhooks/123/abc
-    volumes:
-      - minecraft:/minecraft:nocopy
-
-volumes:
-  map:
-  minecraft:
+```bash
+cd discord
+docker-compose up
 ```
 
 ## Advanced
