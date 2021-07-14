@@ -17,14 +17,14 @@ services:
   overviewer:
     image: iteamacr/minecraft-overviewer:1.17
     volumes:
-      - map:/map
+      - map:/home/overviewer/map
       - minecraft:/mc:nocopy
   nginx:
     image: nginx
     networks:
       - default
     volumes:
-      - map:/usr/share/nginx/html
+      - map:/usr/share/nginx/html:ro,nocopy
     ports:
       - 80:80
 

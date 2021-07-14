@@ -14,4 +14,4 @@ renders["night"] = {
   "rendermode": "night"
 }
 
-outputdir = "/map"
+outputdir = "/home/overviewer/map"
