@@ -8,25 +8,22 @@ The examples below show you how the server stack is run using docker-compose, ru
 
 ### Minecraft server
 
-```yaml
-# docker-compose.yaml
-version: '3.8'
+If you simply want to run a server without any bells and whistles, you can do that away using the docker cli.
 
-services:
+```bash
+# Run a fresh server
+docker run -p 25565:25565 -t iteamacr/minecraft-server:1.17
 
-  # Minecraft server
-  server:
-    image: iteamacr/minecraft-server:1.17
-    networks:
-      - default
-    ports:
-      - "25565:25565" # server
-      - "25575:25575" # rcon
-    volumes:
-      - minecraft:/mc
+# Build the image locally and run a fresh server
+docker build -t minecraft-server server
+docker run -p 25565:25565 -t minecraft-server
+```
 
-volumes:
-  minecraft:
+You can also use my [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/server/docker-compose.yaml) to run a fresh server. It comes with a local volume so that your world and configuration is saved in case you replace the container with a newer one.
+
+```bash
+cd server
+docker-compose up
 ```
 
 ### Minecraft Overviewer
