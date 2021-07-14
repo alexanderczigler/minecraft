@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+
+  # Minecraft server
+  server:
+    image: iteamacr/minecraft-server:1.17
+    networks:
+      - default
+    ports:
+      - "25565:25565" # server
+      - "25575:25575" # rcon
+    volumes:
+      - minecraft:/mc
+  
+  # Overviewer
+  overviewer:
+    image: iteamacr/minecraft-overviewer:1.17
+    volumes:
+      - map:/map
+      - minecraft:/mc:nocopy
+  nginx:
+    image: nginx
+    networks:
+      - default
+    volumes:
+      - map:/usr/share/nginx/html
+    ports:
+      - 80:80
+
+volumes:
+  map:
+  minecraft:

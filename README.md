@@ -28,43 +28,13 @@ docker-compose up
 
 ### Minecraft Overviewer
 
-[Minecraft Overviewer](http://docs.overviewer.org/en/latest/) generates a beautiful map of your server and combined with an httpd like nginx you can host the map on the web.
+[Minecraft Overviewer](http://docs.overviewer.org/en/latest/) generates a beautiful map of your server and combined with an httpd like nginx you can host the map on the web. In addition to the server itself, you will also need to run my `iteamacr/minecraft-overviewer` image and configure it to place the output html files somewhere. I usually bundle overviewer with an nginx container to host the html.
 
-```yaml
-# docker-compose.yaml
-version: '3.8'
+Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/overviewer/docker-compose.yaml) to see how you can run the server, overviewer and nginx.
 
-services:
-
-  # Minecraft server
-  server:
-    image: iteamacr/minecraft-server:1.17
-    networks:
-      - default
-    ports:
-      - "25565:25565" # server
-      - "25575:25575" # rcon
-    volumes:
-      - minecraft:/mc
-  
-  # Overviewer
-  overviewer:
-    image: iteamacr/minecraft-overviewer:1.17
-    volumes:
-      - map:/map
-      - minecraft:/mc:nocopy
-  nginx:
-    image: nginx
-    networks:
-      - default
-    volumes:
-      - map:/usr/share/nginx/html
-    ports:
-      - 80:80
-
-volumes:
-  map:
-  minecraft:
+```bash
+cd overviewer
+docker-compose up
 ```
 
 ### Discord integration
