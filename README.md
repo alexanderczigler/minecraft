@@ -22,7 +22,7 @@ docker build -t minecraft-server server
 docker run -p 25565:25565 -t minecraft-server
 ```
 
-You can also use my [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/server/docker-compose.yaml) to run a fresh server. It comes with a local volume so that your world and configuration is saved in case you replace the container with a newer one.
+You can also use my [example compose stack](https://github.com/alexanderczigler/minecraft/blob/main/server/docker-compose.yaml) to run a fresh server. It comes with a local volume so that your world and configuration is saved in case you replace the container with a newer one.
 
 ```bash
 cd server
@@ -36,7 +36,7 @@ docker-compose up
 *NOTE: The image uses `flock` to ensure that only one render is running at the same time.*
 *NOTE: It can take a few minutes for the map to appear for the first time, so be patient!*
 
-Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/overviewer/docker-compose.yaml) to see how you can run the server, overviewer and nginx.
+Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/main/overviewer/docker-compose.yaml) to see how you can run the server, overviewer and nginx.
 
 ```bash
 cd overviewer
@@ -49,9 +49,9 @@ My `iteamacr/minecraft-discord` image works by tailing the log file and pushing 
 
 *NOTE: I recommend you create a dedicated channel for the Minecraft server as there will be a lot of text coming out from the server*
 
-![Discord example](https://raw.githubusercontent.com/alexanderczigler/minecraft/master/discord/example.png)
+![Discord example](https://raw.githubusercontent.com/alexanderczigler/minecraft/main/discord/example.png)
 
-Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/master/discord/docker-compose.yaml) to see how you can run the server, overviewer and nginx. Remember to edit the `discord` service first to enter your webhook in the environment section!
+Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/main/discord/docker-compose.yaml) to see how you can run the server, overviewer and nginx. Remember to edit the `discord` service first to enter your webhook in the environment section!
 
 ```bash
 cd discord
