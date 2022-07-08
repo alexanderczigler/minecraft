@@ -1,5 +1,5 @@
 FROM openjdk
-LABEL maintainer="alexander@iteam.se"
+LABEL maintainer="dev@ilix.se"
 
 WORKDIR /mc
 ADD ./run.sh /run.sh

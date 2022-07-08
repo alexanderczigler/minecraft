@@ -1,5 +1,5 @@
-FROM iteamacr/cron:oldstable
-LABEL maintainer="alexander@iteam.se"
+FROM alexanderczigler/cron
+LABEL maintainer="dev@ilix.se"
 
 # Install gnupg2 to be able to add overviewer's key
 RUN apt-get update
