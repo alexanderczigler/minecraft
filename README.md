@@ -12,10 +12,10 @@ If you simply want to run a server without any bells and whistles, you can do th
 
 ```bash
 # Run a fresh server
-docker run -p 25565:25565 -t iteamacr/minecraft-server:1.17
+docker run -p 25565:25565 -t alexanderczigler/minecraft-server:1.19
 
 # Set a higher memory limit
-docker run -p 25565:25565 -e MEMORY_LIMIT=4 -t iteamacr/minecraft-server:1.17
+docker run -p 25565:25565 -e MEMORY_LIMIT=4 -t alexanderczigler/minecraft-server:1.19
 
 # Build the image locally and run a fresh server
 docker build -t minecraft-server server
@@ -31,10 +31,10 @@ docker-compose up
 
 ### Minecraft Overviewer
 
-[Minecraft Overviewer](http://docs.overviewer.org/en/latest/) generates a beautiful map of your server and combined with an httpd like nginx you can host the map on the web. In addition to the server itself, you will also need to run my `iteamacr/minecraft-overviewer` image and configure it to place the output html files somewhere. I usually bundle overviewer with an nginx container to host the html. When the container is running, it will trigger a re-render the map every minute, so that once a render is complete it will restart within a minute. This ensures that your map is always up-to-date.
+[Minecraft Overviewer](http://docs.overviewer.org/en/latest/) generates a beautiful map of your server and combined with an httpd like nginx you can host the map on the web. In addition to the server itself, you will also need to run my `alexanderczigler/minecraft-overviewer` image and configure it to place the output html files somewhere. I usually bundle overviewer with an nginx container to host the html. When the container is running, it will trigger a re-render the map every minute, so that once a render is complete it will restart within a minute. This ensures that your map is always up-to-date.
 
-*NOTE: The image uses `flock` to ensure that only one render is running at the same time.*
-*NOTE: It can take a few minutes for the map to appear for the first time, so be patient!*
+_NOTE: The image uses `flock` to ensure that only one render is running at the same time._
+_NOTE: It can take a few minutes for the map to appear for the first time, so be patient!_
 
 Checkout the [example compose stack](https://github.com/alexanderczigler/minecraft/blob/main/overviewer/docker-compose.yaml) to see how you can run the server, overviewer and nginx.
 
@@ -45,9 +45,9 @@ docker-compose up
 
 ### Discord integration
 
-My `iteamacr/minecraft-discord` image works by tailing the log file and pushing any new lines to a discord webhook. This enables your to monitor the activity and chat on the server via discord. To learn how to create a webhook, check out [Discord's documentation](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
+My `alexanderczigler/minecraft-discord` image works by tailing the log file and pushing any new lines to a discord webhook. This enables your to monitor the activity and chat on the server via discord. To learn how to create a webhook, check out [Discord's documentation](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
-*NOTE: I recommend you create a dedicated channel for the Minecraft server as there will be a lot of text coming out from the server*
+_NOTE: I recommend you create a dedicated channel for the Minecraft server as there will be a lot of text coming out from the server_
 
 ![Discord example](https://raw.githubusercontent.com/alexanderczigler/minecraft/main/discord/example.png)
 
@@ -60,16 +60,19 @@ docker-compose up
 
 ## Swarm
 
-If you are aiming for a more fault-tolerant environment, you may want to map your volumes to a network drive rather than a local folder. In addition to that it is a good idea to also take regular off-site backups. Below is an example of a docker swarm stack running all of the above services, including my `iteamacr/minecraft-backup` image.
+If you are aiming for a more fault-tolerant environment, you may want to map your volumes to a network drive rather than a local folder. In addition to that it is a good idea to also take regular off-site backups. Below is an example of a docker swarm stack running all of the above services, including my `alexanderczigler/minecraft-backup` image.
 
 ### Example stack
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   server:
-    image: iteamacr/minecraft-server:1.17
+    image: alexanderczigler/minecraft-server:1.19
+    environment:
+      - MEMORY_LIMIT=2
+      - RCON_PASSWORD=my-rcon-password
     networks:
       - default
     ports:
@@ -83,7 +86,7 @@ services:
     deploy:
       replicas: 1
   overviewer:
-    image: iteamacr/minecraft-overviewer:1.17
+    image: alexanderczigler/minecraft-overviewer:1.19
     volumes:
       - type: volume
         source: minecraft
@@ -115,7 +118,7 @@ services:
         traefik.docker.network: "proxy"
         traefik.frontend.rule: "Host:minecraft.your-domain.net" # Change this!
   discord:
-    image: iteamacr/minecraft-discord:latest
+    image: alexanderczigler/minecraft-discord:latest
     networks:
       default:
     environment:
@@ -124,24 +127,20 @@ services:
     volumes:
       - type: volume
         source: minecraft
-        target: /minecraft
+        target: /mc
         volume:
           nocopy: true
   backup:
-    image: iteamacr/minecraft-backup:latest
+    image: alexanderczigler/minecraft-backup:latest
     volumes:
       - type: volume
         source: minecraft
-        target: /minecraft
+        target: /mc
         volume:
           nocopy: true
     networks:
       default:
     environment:
-      - RSYNC_PASSWORD=abc123 # Change this!
-      - RSYNC_PATH=/minecraft
-      - RSYNC_HOST=usw-s001.rsync.net # Change this!
-      - RSYNC_USER=1337 # Change this!
       - MINECRAFT_SERVER=server
       - MINERACFT_SERVER_PORT=25575
       - MINECRAFT_RCON_PASSWORD=verysecret # Change this!
@@ -171,5 +170,4 @@ volumes:
       type: "nfs"
       o: "addr=188.166.25.183,nolock,soft,rw"
       device: ":/mnt/storage-server/minecraft-server/minecraft"
-
 ```
