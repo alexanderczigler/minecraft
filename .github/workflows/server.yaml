@@ -26,7 +26,6 @@ jobs:
         with:
           context: server
           push: true
-          images: alexanderczigler/minecraft-server
           tags: |
-            1.19
-            latest
+            alexanderczigler/minecraft-server:1.19
+            alexanderczigler/minecraft-server:latest
