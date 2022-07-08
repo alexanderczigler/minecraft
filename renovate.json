@@ -1,5 +1,16 @@
 {
-  "extends": [
-    "config:base"
+  "extends": ["config:base"],
+  "reviewers": ["alexanderczigler"],
+  "packageRules": [
+    {
+      "automerge": true,
+      "groupName": "patch",
+      "updateTypes": ["patch"]
+    },
+    {
+      "automerge": false,
+      "groupName": "non-breaking-changes",
+      "updateTypes": ["minor"]
+    }
   ]
 }

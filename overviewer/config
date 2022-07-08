@@ -15,3 +15,4 @@ renders["night"] = {
 }
 
 outputdir = "/home/overviewer/map"
+texturepath = "/home/overviewer/.minecraft/versions/1.19/1.19.jar"

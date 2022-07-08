@@ -1,2 +1,2 @@
-* * * * * su overviewer -c "/usr/bin/flock -n /tmp/ov.lock /usr/bin/overviewer.py --config=/etc/overviewer.config" >> /var/log/cron.log
+* * * * * su overviewer -c "/usr/bin/flock -n /tmp/ov.lock /usr/local/bin/overviewer.py --config=/etc/overviewer.config" >> /var/log/cron.log
 # this line is supposed to be here

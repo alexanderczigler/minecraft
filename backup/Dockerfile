@@ -1,5 +1,5 @@
-FROM iteamacr/cron
-LABEL maintainer="alexander@iteam.se"
+FROM alexanderczigler/cron
+LABEL maintainer="dev@ilix.se"
 
 WORKDIR /tmp
 
