@@ -2,7 +2,7 @@
 cd /mc
 
 # Enable RCON
-sed -i "/enable-rcon=*/c\enable-rcon=true" server.properties
+sed -i "/enable-rcon=*/c\enable-rcon=$RCON_ENABLE" server.properties
 sed -i "/rcon.password=*/c\rcon.password=$RCON_PASSWORD" server.properties
 
 # Agree to EULA

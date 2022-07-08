@@ -39,6 +39,7 @@ services:
     build: server
     environment:
       - MEMORY_LIMIT=2
+      - RCON_ENABLE=true
       - RCON_PASSWORD=my-rcon-password
     ports:
       - "25565:25565" # server

@@ -39,6 +39,7 @@ services:
     image: alexanderczigler/minecraft-server:1.19
     environment:
       - MEMORY_LIMIT=2
+      - RCON_ENABLE=true
       - RCON_PASSWORD=my-rcon-password
     ports:
       - "25565:25565" # server
