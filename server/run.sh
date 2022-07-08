@@ -4,7 +4,6 @@ cd /mc
 # Enable RCON
 sed -i "/enable-rcon=*/c\enable-rcon=true" server.properties
 sed -i "/rcon.password=*/c\rcon.password=$RCON_PASSWORD" server.properties
-echo "RCON password: $RCON_PASSWORD"
 
 # Agree to EULA
 echo "By running this container, you are agreeing to stick to the rules of the end user license agreement terms."
