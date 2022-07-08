@@ -3,7 +3,7 @@ version: '3'
 services:
 
   backup:
-    build: backup
+    image: alexanderczigler/minecraft-backup
     environment:
       MINECRAFT_SERVER: server
       MINERACFT_SERVER_PORT: 25575
@@ -13,7 +13,7 @@ services:
       - minecraft:/mc
 
   discord:
-    build: discord
+    image: alexanderczigler/minecraft-discord
     environment:
       # Set your Discord webhook here.
       - WEBHOOK=<paste your webhook here>
@@ -30,13 +30,13 @@ services:
       - 80:80
 
   overviewer:
-    build: overviewer
+    image: alexanderczigler/minecraft-overviewer:1.19
     volumes:
       - map:/home/overviewer/map
       - minecraft:/mc:nocopy
 
   server:
-    build: server
+    image: alexanderczigler/minecraft-server1.19
     environment:
       - MEMORY_LIMIT=2
       - RCON_PASSWORD=my-rcon-password
