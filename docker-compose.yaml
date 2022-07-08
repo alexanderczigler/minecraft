@@ -36,7 +36,7 @@ services:
       - minecraft:/mc:nocopy
 
   server:
-    image: alexanderczigler/minecraft-server1.19
+    image: alexanderczigler/minecraft-server:1.19
     environment:
       - MEMORY_LIMIT=2
       - RCON_PASSWORD=my-rcon-password
