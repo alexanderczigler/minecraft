@@ -19,13 +19,13 @@ The `minecraft-server` image runs latest version of Minecraft server. Starting i
 
 ```bash
 # Run a minecraft server.
-docker run -p 25565:25565 -t alexanderczigler/minecraft-server:1.19
+docker run -p 25565:25565 -t alexanderczigler/minecraft-server
 
 # Enable RCON.
-docker run -p 25565:25565 -p 25575:25575 --env RCON_ENABLE=true --env RCON_PASSWORD=my-rcon-password -t alexanderczigler/minecraft-server:1.19
+docker run -p 25565:25565 -p 25575:25575 --env RCON_ENABLE=true --env RCON_PASSWORD=my-rcon-password -t alexanderczigler/minecraft-server
 
 # Set a higher memory limit.
-docker run -p 25565:25565 -e MEMORY_LIMIT=4 -t alexanderczigler/minecraft-server:1.19
+docker run -p 25565:25565 -e MEMORY_LIMIT=4 -t alexanderczigler/minecraft-server
 ```
 
 ### Minecraft Overviewer
@@ -54,7 +54,7 @@ version: "3.8"
 
 services:
   server:
-    image: alexanderczigler/minecraft-server:1.19
+    image: alexanderczigler/minecraft-server
     environment:
       - MEMORY_LIMIT=2
       - RCON_ENABLE=true
@@ -72,7 +72,7 @@ services:
     deploy:
       replicas: 1
   overviewer:
-    image: alexanderczigler/minecraft-overviewer:1.19
+    image: alexanderczigler/minecraft-overviewer
     volumes:
       - type: volume
         source: minecraft
