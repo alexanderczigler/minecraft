@@ -30,13 +30,13 @@ services:
       - 80:80
 
   overviewer:
-    image: alexanderczigler/minecraft-overviewer:1.19
+    image: alexanderczigler/minecraft-overviewer
     volumes:
       - map:/home/overviewer/map
       - minecraft:/mc:nocopy
 
   server:
-    image: alexanderczigler/minecraft-server:1.19
+    image: alexanderczigler/minecraft-server
     environment:
       - MEMORY_LIMIT=2
       - RCON_ENABLE=true
