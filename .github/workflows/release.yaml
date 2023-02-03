@@ -38,4 +38,4 @@ jobs:
           context: ${{ matrix.context }}
           platforms: "linux/amd64,linux/arm64"
           push: true
-          tags: alexanderczigler/minecraft-${{ matrix.context }}
+          tags: alexanderczigler/minecraft-${{ matrix.context }}:latest,alexanderczigler/minecraft-${{ matrix.context }}:1.19.3
