@@ -1,21 +1,22 @@
-# minecraft
+# Minecraft for docker
 
-With my docker images it is easy to run a Minecraft server complete with backups, discord integration and an overviewer map.
+I have prepared a set of docker images that you can use to run your own Minecraft server. It is currently updated for Minecraft `1.19.3`. Apart from the server itself there is an image for taking regular backups of the world files, a [Minecraft Overviewer](http://docs.overviewer.org/en/latest/) image and a Discord integration.
 
-The examples below show you how the server stack is run using docker-compose, running the stack in kubernetes or docker swarm is very similar.
+The examples below show you how the server stack is run using docker compose, running the stack in kubernetes or docker swarm is very similar.
 
 ## Running
 
-To run everything locally, simply clone this repo and run `docker compose`.
+To run everything locally, simply clone this repo and run `docker compose up`. This will download the pre-built images from Docker Hub and run them on your machine.
+
+If you prefer to build everything locally you can use the `docker-compose.local.yaml` file instead. This is useful if you wish to make modifications to any of the Dockerfiles.
 
 ```bash
-docker compose up
-docker compose -f docker-compose.dev.yaml up # Build all images locally before running.
+docker compose -f docker-compose.local.yaml up # Build all images locally before running.
 ```
 
 ### Minecraft server
 
-The `minecraft-server` image runs latest version of Minecraft server. Starting it is easy with `docker run`.
+The `minecraft-server` image runs the java version of Minecraft server. Starting it is easy with `docker run`. Here are some examples:
 
 ```bash
 # Run a minecraft server.
